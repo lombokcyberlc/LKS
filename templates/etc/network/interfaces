@@ -1,0 +1,26 @@
+# Template: /etc/network/interfaces
+# Ganti placeholder sesuai data sekolah:
+#   NAMASEKOLAH  → nama domain sekolah, contoh: lombokcyber
+#   IP_SERVER    → IP address LAN server, contoh: 10.100.100.1
+#
+# Interface yang tersedia: cek dengan perintah: ip link show
+
+# Loopback interface — JANGAN DIUBAH
+auto lo
+iface lo inet loopback
+
+# ens18 — Interface WAN ke internet
+# Mendapat IP otomatis dari DHCP internet (switch/router ISP)
+auto ens18
+iface ens18 inet dhcp
+
+# ens19 — Interface LAN ke client/desktop
+# IP statis, server ini adalah gateway untuk jaringan internal
+auto ens19
+iface ens19 inet static
+    address IP_SERVER          # IP server di jaringan internal
+    netmask 255.255.255.0      # Subnet mask /24
+    # Gateway tidak diisi di ens19 karena gateway ada di ens18
+    # DNS akan dikonfigurasi setelah bind9 terpasang
+    dns-nameservers IP_SERVER 8.8.8.8
+    dns-search NAMASEKOLAH.lan

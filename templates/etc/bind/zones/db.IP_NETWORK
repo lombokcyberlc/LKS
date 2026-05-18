@@ -1,0 +1,42 @@
+; Template: /etc/bind/zones/db.IP_NETWORK
+; File reverse zone DNS — mengubah IP address → nama domain
+;
+; Ganti placeholder:
+;   NAMASEKOLAH → nama domain sekolah, contoh: lombokcyber
+;   IP_NETWORK  → tiga oktet pertama IP server, contoh: 10.100.100.1 → IP_NETWORK = 10.100.100
+;   IP_LAST     → oktet terakhir IP server, contoh: 10.100.100.1 → IP_LAST = 1
+;
+; SETELAH EDIT, simpan file sebagai db.IP_NETWORK (contoh: db.10.100.100)
+; lalu cek sintaks dengan:
+;   named-checkzone 100.100.10.in-addr.arpa /etc/bind/zones/db.10.100.100
+;   (sesuaikan nama zone dan nama file dengan jaringan Anda)
+;
+; Serial harus SAMA atau LEBIH BESAR dari forward zone
+
+$TTL 86400
+
+; SOA Record — samakan nilai dengan forward zone
+@   IN  SOA ns1.NAMASEKOLAH.lan. admin.NAMASEKOLAH.lan. (
+            2026051801   ; Serial — harus sama dengan file zone forward
+            3600         ; Refresh
+            1800         ; Retry
+            604800       ; Expire
+            86400 )      ; Negative TTL
+
+; NS Record — nameserver yang bertanggung jawab
+@       IN  NS      ns1.NAMASEKOLAH.lan.
+
+; PTR Record = Pointer Record
+; Kebalikan dari A record: IP → nama domain
+; Format: <oktet_terakhir_IP>  IN  PTR  <nama_lengkap>.
+;
+; Contoh: IP 10.100.100.1
+;   Reverse zone: 100.100.10.in-addr.arpa
+;   PTR record: 1  IN  PTR  ns1.lombokcyber.lan.
+;   (oktet terakhir saja, karena 3 oktet pertama sudah di nama zone)
+;
+; Ganti IP_LAST dengan oktet terakhir IP server Anda
+IP_LAST     IN  PTR     NAMASEKOLAH.lan.
+IP_LAST     IN  PTR     ns1.NAMASEKOLAH.lan.
+IP_LAST     IN  PTR     www.NAMASEKOLAH.lan.
+IP_LAST     IN  PTR     mail.NAMASEKOLAH.lan.

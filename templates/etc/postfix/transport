@@ -1,0 +1,21 @@
+# Template: /etc/postfix/transport
+# Routing email lintas server — mengarahkan email ke domain lain langsung ke IP
+#
+# Format satu baris per domain tujuan:
+#   DOMAIN_TUJUAN   smtp:[IP_SERVER_TUJUAN]
+#
+# Tanda [ ] di sekitar IP berarti bypass MX lookup — koneksi langsung ke IP.
+# Tanpa [ ], Postfix akan mencari MX record via DNS terlebih dahulu.
+#
+# Ganti placeholder:
+#   DOMAIN_LAIN     → domain server peserta lain, contoh: hadiwijaya.lan
+#   IP_SERVER_LAIN  → IP WAN server peserta lain (yang bisa dicapai), contoh: 192.168.198.249
+#
+# Setelah edit file ini WAJIB jalankan:
+#   postmap /etc/postfix/transport
+#   systemctl restart postfix
+#
+# Aktifkan di main.cf dengan:
+#   transport_maps = hash:/etc/postfix/transport
+
+DOMAIN_LAIN   smtp:[IP_SERVER_LAIN]

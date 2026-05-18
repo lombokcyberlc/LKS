@@ -1,0 +1,30 @@
+// Template: /etc/bind/named.conf.local
+// File konfigurasi zone lokal untuk BIND9
+//
+// Ganti placeholder:
+//   NAMASEKOLAH       → nama domain sekolah, contoh: lombokcyber
+//   IP_REV1           → oktet ketiga IP (untuk reverse zone)
+//                       Contoh: jaringan 10.100.100.0/24 → IP_REV1 = 100
+//   IP_REV2           → oktet kedua IP
+//                       Contoh: jaringan 10.100.100.0/24 → IP_REV2 = 100
+//   IP_REV3           → oktet pertama IP
+//                       Contoh: jaringan 10.100.100.0/24 → IP_REV3 = 10
+//
+// Nama reverse zone:
+//   Jaringan 10.100.100.0/24 → zone name: "100.100.10.in-addr.arpa"
+//   (oktet IP dibalik, tanpa oktet host, + .in-addr.arpa)
+
+// Forward zone: menerjemahkan nama domain → IP address
+zone "NAMASEKOLAH.lan" {
+    type master;                                    // server ini = primary DNS
+    file "/etc/bind/zones/db.NAMASEKOLAH.lan";      // lokasi file zone
+    allow-query { any; };                           // izinkan query dari semua
+};
+
+// Reverse zone: menerjemahkan IP address → nama domain
+// Format nama zone: oktet-dibalik.in-addr.arpa
+zone "IP_REV1.IP_REV2.IP_REV3.in-addr.arpa" {
+    type master;
+    file "/etc/bind/zones/db.IP_NETWORK";
+    allow-query { any; };
+};

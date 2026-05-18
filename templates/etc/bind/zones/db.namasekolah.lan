@@ -1,0 +1,55 @@
+; Template: /etc/bind/zones/db.NAMASEKOLAH.lan
+; File forward zone DNS — mengubah nama domain → IP address
+;
+; Ganti placeholder:
+;   NAMASEKOLAH → nama domain sekolah, contoh: lombokcyber
+;   IP_SERVER   → IP address server, contoh: 10.100.100.1
+;
+; SETELAH EDIT, cek sintaks dengan:
+;   named-checkzone NAMASEKOLAH.lan /etc/bind/zones/db.NAMASEKOLAH.lan
+; Jika tidak ada error, restart bind9:
+;   systemctl restart named
+;
+; PENTING: Setiap kali file ini diubah, INCREMENT nilai Serial!
+;          Format serial: YYYYMMDDNN (tanggal + nomor urut)
+
+; $TTL = Default Time To Live
+; Berapa lama (detik) resolver boleh menyimpan (cache) record ini
+; 86400 = 1 hari
+$TTL 86400
+
+; SOA = Start of Authority
+; Record pertama yang WAJIB ada di setiap file zone
+; Format: @ IN SOA <primary-ns>. <admin-email>. ( ... )
+; Titik di akhir nama = FQDN (Fully Qualified Domain Name)
+; Admin email: admin@NAMASEKOLAH.lan ditulis admin.NAMASEKOLAH.lan (@ → .)
+@   IN  SOA  ns1.NAMASEKOLAH.lan. admin.NAMASEKOLAH.lan. (
+               2026051801   ; Serial  — YYYYMMDDNN, INCREMENT setiap ada perubahan
+               3600         ; Refresh — 1 jam: seberapa sering secondary cek ke primary
+               1800         ; Retry   — 30 menit: jika refresh gagal, tunggu sebelum retry
+               604800       ; Expire  — 7 hari: secondary tetap melayani jika primary down
+               86400 )      ; Negative TTL — 1 hari: cache "domain tidak ada" (NXDOMAIN)
+
+; NS Record = Name Server
+; Mendaftarkan server DNS yang bertanggung jawab untuk domain ini
+; Titik di akhir = FQDN (wajib!)
+@       IN  NS      ns1.NAMASEKOLAH.lan.
+
+; A Record = Address Record
+; Memetakan nama host ke IPv4 address
+; @ = domain utama (NAMASEKOLAH.lan itu sendiri)
+@       IN  A       IP_SERVER
+ns1     IN  A       IP_SERVER
+www     IN  A       IP_SERVER
+mail    IN  A       IP_SERVER
+
+; MX Record = Mail Exchanger
+; Mendaftarkan mail server untuk domain ini
+; Angka 10 = prioritas (makin kecil = makin diprioritaskan)
+; Titik di akhir nama mail server = FQDN (wajib!)
+@       IN  MX  10  mail.NAMASEKOLAH.lan.
+
+; CNAME Record = Canonical Name (Alias)
+; Membuat alias: nama lain yang menunjuk ke nama yang sudah ada
+; Contoh (aktifkan jika diperlukan):
+; ftp     IN  CNAME   www.NAMASEKOLAH.lan.

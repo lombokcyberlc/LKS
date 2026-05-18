@@ -1,0 +1,10 @@
+# Template: /etc/default/isc-dhcp-server
+# Menentukan interface yang dilayani oleh DHCP server
+#
+# Ganti placeholder:
+#   IFACE_LAN → nama interface LAN ke client, contoh: ens19
+#
+# Hanya isi INTERFACESv4, biarkan INTERFACESv6 kosong jika tidak pakai IPv6
+
+INTERFACESv4="ens19"
+INTERFACESv6=""

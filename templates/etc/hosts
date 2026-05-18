@@ -1,0 +1,33 @@
+# Template: /etc/hosts
+# File pemetaan nama host ke IP address (resolusi lokal, tanpa DNS)
+#
+# Fungsi utama:
+#   1. Memetakan hostname server ke IP sendiri — diperlukan agar
+#      `hostname -f` dan Postfix bisa resolve nama FQDN server
+#   2. Routing email lintas server — entry server peserta lain
+#      digunakan bersama transport_maps Postfix
+#
+# Ganti placeholder:
+#   NAMASEKOLAH → nama domain sekolah, contoh: lombokcyber
+#   IP_SERVER   → IP server pada interface LAN (ens19), contoh: 10.100.100.1
+#
+# Setelah edit tidak perlu restart apapun — berlaku langsung.
+
+127.0.0.1   localhost
+IP_SERVER   mail.NAMASEKOLAH.lan   NAMASEKOLAH.lan   NAMASEKOLAH
+
+# ============================================================
+# ROUTING EMAIL LINTAS SERVER (isi IP server peserta lain)
+# ============================================================
+# Baris ini diperlukan agar Postfix bisa meneruskan email
+# ke server lain lewat transport_maps (/etc/postfix/transport).
+# Isi sesuai data server yang dituju.
+#
+# IP_SERVER_LAIN   DOMAIN_LAIN.lan
+
+# ============================================================
+# IPv6 (jangan dihapus)
+# ============================================================
+::1     localhost ip6-localhost ip6-loopback
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters

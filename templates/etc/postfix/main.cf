@@ -1,0 +1,97 @@
+# Template: /etc/postfix/main.cf
+# Konfigurasi Postfix Mail Transfer Agent (MTA)
+#
+# Ganti placeholder:
+#   NAMASEKOLAH → nama domain sekolah, contoh: lombokcyber
+#   IP_NETWORK  → network address jaringan internal, contoh: 10.100.100.0
+#
+# Setelah edit:
+#   postfix check          → cek konfigurasi
+#   systemctl restart postfix
+#   systemctl status postfix
+#
+# Test pengiriman:
+#   echo "test" | mail -s "Test" user@NAMASEKOLAH.lan
+#   journalctl -u postfix -n 20
+
+# ============================================================
+# IDENTITAS SERVER
+# ============================================================
+
+# Hostname lengkap server email ini
+# Harus sesuai dengan A record di DNS
+myhostname = mail.NAMASEKOLAH.lan
+
+# Domain yang dilayani
+# Email dengan @NAMASEKOLAH.lan akan diterima oleh server ini
+mydomain = NAMASEKOLAH.lan
+
+# Domain yang digunakan sebagai pengirim email outgoing
+# $mydomain berarti gunakan nilai mydomain di atas
+myorigin = $mydomain
+
+# ============================================================
+# JARINGAN
+# ============================================================
+
+# Interface yang didengarkan Postfix
+# "all" = semua interface (ens18 dan ens19)
+inet_interfaces = all
+
+# Hanya gunakan IPv4 (bukan IPv6)
+inet_protocols = ipv4
+
+# ============================================================
+# PENERIMAAN EMAIL (INCOMING)
+# ============================================================
+
+# Daftar domain yang dianggap "lokal"
+# Email ke domain ini DITERIMA dan disimpan di mailbox lokal
+# Jangan hapus localhost — digunakan untuk sistem internal
+mydestination = $myhostname, NAMASEKOLAH.lan, localhost.NAMASEKOLAH.lan, localhost
+
+# ============================================================
+# RELAY (PENGIRIMAN EMAIL)
+# ============================================================
+
+# Jaringan yang BOLEH mengirim email melalui server ini (relay)
+# Format: network/prefix
+# 127.0.0.0/8 = localhost
+# IP_NETWORK/24 = jaringan internal (client)
+mynetworks = 127.0.0.0/8 IP_NETWORK/24
+
+# ============================================================
+# PENYIMPANAN EMAIL (MAILBOX)
+# ============================================================
+
+# Format penyimpanan: Maildir
+# Garis miring di akhir = WAJIB untuk Maildir format
+# Email disimpan di /home/USERNAME/Maildir/
+# Berbeda dari mbox (satu file untuk semua email):
+#   Maildir = satu file per pesan, lebih aman untuk IMAP
+home_mailbox = Maildir/
+
+# Ukuran maksimum mailbox per user dalam byte
+# 0 = tidak terbatas
+mailbox_size_limit = 0
+
+# ============================================================
+# PENGATURAN TAMBAHAN
+# ============================================================
+
+# Karakter pemisah untuk subaddress email
+# Contoh: user+tag@domain.lan → dikirim ke user@domain.lan
+recipient_delimiter = +
+
+# Nonaktifkan pengiriman SMTP ke port 25 dari jaringan luar
+# (opsional, untuk keamanan di lingkungan produksi)
+# smtpd_recipient_restrictions = permit_mynetworks, reject
+
+# ============================================================
+# ROUTING EMAIL LINTAS SERVER (opsional — jika ada 2 server)
+# ============================================================
+
+# Aktifkan transport map untuk mengarahkan email ke server lain
+# File /etc/postfix/transport berisi: DOMAIN_LAIN smtp:[IP_SERVER_LAIN]
+# Setelah edit transport, wajib jalankan: postmap /etc/postfix/transport
+transport_maps = hash:/etc/postfix/transport

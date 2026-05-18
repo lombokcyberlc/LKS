@@ -12,6 +12,7 @@ Repositori ini berisi panduan, template konfigurasi, dan lembar penilaian untuk 
 | 1 | SMKN 7 Mataram | smkn7mataram.lan | 10.1.1.1/24 |
 | 2 | SMKN 1 Masbagik | smkn1masbagik.lan | 10.2.2.1/24 |
 | 3 | SMKN 1 Dompu | smkn1dompu.lan | 10.3.3.1/24 |
+| 4 | SMKN 1 Praya | smkn1praya.lan | 10.4.4.1/24 |
 
 ---
 
@@ -29,7 +30,7 @@ Repositori ini berisi panduan, template konfigurasi, dan lembar penilaian untuk 
 
 ## Isi Repositori
 
-```
+```text
 .
 ├── README.md                  — dokumen ini
 ├── PANDUAN.md                 — panduan setup step-by-step untuk peserta
@@ -93,7 +94,8 @@ Template menggunakan placeholder yang harus diganti sesuai data sekolah masing-m
 | `DOMAIN_LAIN` | Domain server peserta lain (transport) | `hadiwijaya.lan` |
 | `IP_SERVER_LAIN` | IP WAN server peserta lain (transport) | `192.168.198.249` |
 
-### Contoh penggantian dengan `sed`:
+### Contoh Penggantian dengan sed
+
 ```bash
 # Ganti semua placeholder sekaligus (sesuaikan nilai dengan data sekolah Anda)
 sed -i 's/NAMASEKOLAH/lombokcyber/g; s/IP_SERVER/10.100.100.1/g' /etc/dhcp/dhcpd.conf
@@ -214,9 +216,42 @@ sed -i 's/NAMASEKOLAH/lombokcyber/g; s/IP_SERVER/10.100.100.1/g' /etc/dhcp/dhcpd
 
 ---
 
+### Peserta 4 — SMKN 1 Praya
+
+#### Spesifikasi Jaringan
+
+| Parameter | Nilai |
+| --- | --- |
+| Domain | `smkn1praya.lan` |
+| Hostname server | `mail.smkn1praya.lan` |
+| IP server LAN (ens19) | `10.4.4.1/24` |
+| Gateway client | `10.4.4.1` |
+| DHCP range | `10.4.4.100` — `10.4.4.200` |
+| DNS server | `10.4.4.1` |
+| Reverse zone | `4.4.10.in-addr.arpa` (file: `db.10.4.4`) |
+
+#### Akun yang Harus Dibuat
+
+| Username | Peran | Email |
+| --- | --- | --- |
+| `peserta` | Peserta (web + email) | `peserta@smkn1praya.lan` |
+| `guru` | Guru pendamping | `guru@smkn1praya.lan` |
+
+#### Tugas yang Harus Dikerjakan
+
+1. **Konfigurasi IP Address** — set IP statis `10.4.4.1/24` pada `ens19`, aktifkan IP forwarding
+2. **DHCP Server** — layani jaringan `10.4.4.0/24`, range `10.4.4.100–200`, DNS `10.4.4.1`
+3. **DNS Server** — forward zone `smkn1praya.lan` (A, MX, NS, www), reverse zone `4.4.10.in-addr.arpa`
+4. **Web Server** — VirtualHost `smkn1praya.lan` dan `www.smkn1praya.lan`, DocumentRoot `/home/peserta/public_html`
+5. **Upload HTML** — upload `index.html` via SCP dari client ke server, pindahkan ke DocumentRoot
+6. **Mail Server** — Postfix + Dovecot, format Maildir, buat akun `peserta` dan `guru`
+7. **Uji Email** — kirim dan reply email antar `peserta` ↔ `guru` via terminal, demo via Thunderbird
+
+---
+
 ## Topologi Jaringan
 
-```
+```text
 Internet (10.10.10.0/24 — GW: 10.10.10.1)
          |
       Switch

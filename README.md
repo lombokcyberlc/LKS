@@ -7,12 +7,12 @@ Repositori ini berisi panduan, template konfigurasi, dan lembar penilaian untuk 
 
 ## Peserta Lomba
 
-| No | Sekolah | Domain | IP Server (LAN) |
-| --- | --- | --- | --- |
-| 1 | SMKN 7 Mataram | smkn7mataram.lan | 10.1.1.1/24 |
-| 2 | SMKN 1 Masbagik | smkn1masbagik.lan | 10.2.2.1/24 |
-| 3 | SMKN 1 Dompu | smkn1dompu.lan | 10.3.3.1/24 |
-| 4 | SMKN 1 Praya | smkn1praya.lan | 10.4.4.1/24 |
+| No | Sekolah         | Domain            | IP Server (LAN) |
+| -- | --------------- | ----------------- | --------------- |
+| 1  | SMKN 7 Mataram  | smkn7mataram.lan  | 10.1.1.1/24     |
+| 2  | SMKN 1 Masbagik | smkn1masbagik.lan | 10.2.2.1/24     |
+| 3  | SMKN 1 Dompu    | smkn1dompu.lan    | 10.3.3.1/24     |
+| 4  | SMKN 1 PRAYA TENGAH    | smkn1prayatengah.lan    | 10.4.4.1/24     |
 
 ---
 
@@ -77,22 +77,22 @@ Repositori ini berisi panduan, template konfigurasi, dan lembar penilaian untuk 
 
 Template menggunakan placeholder yang harus diganti sesuai data sekolah masing-masing:
 
-| Placeholder | Ganti dengan | Contoh |
-| --- | --- | --- |
-| `NAMASEKOLAH` | Nama domain sekolah | `lombokcyber` |
-| `IP_SERVER` | IP server pada interface LAN | `10.100.100.1` |
-| `IP_NETWORK` | Tiga oktet pertama IP (nama file reverse zone) | `10.100.100` |
-| `IP_RANGE_START` | IP awal pool DHCP | `10.100.100.100` |
-| `IP_RANGE_END` | IP akhir pool DHCP | `10.100.100.200` |
-| `IP_BROADCAST` | Broadcast address | `10.100.100.255` |
-| `IP_REVERSE_OCTET` | Oktet ketiga IP (untuk nama reverse zone) | `100` |
-| `IP_REVERSE_OCTET2` | Oktet kedua IP | `100` |
-| `IP_REVERSE_OCTET3` | Oktet pertama IP | `10` |
-| `IP_LAST` | Oktet terakhir IP server (PTR record) | `1` |
-| `NAMAUSER` | Username peserta | `peserta` |
-| `NAMA_GURU` | Username guru pendamping | `gurukomputer` |
-| `DOMAIN_LAIN` | Domain server peserta lain (transport) | `hadiwijaya.lan` |
-| `IP_SERVER_LAIN` | IP WAN server peserta lain (transport) | `192.168.198.249` |
+| Placeholder           | Ganti dengan                                   | Contoh              |
+| --------------------- | ---------------------------------------------- | ------------------- |
+| `NAMASEKOLAH`       | Nama domain sekolah                            | `lombokcyber`     |
+| `IP_SERVER`         | IP server pada interface LAN                   | `10.100.100.1`    |
+| `IP_NETWORK`        | Tiga oktet pertama IP (nama file reverse zone) | `10.100.100`      |
+| `IP_RANGE_START`    | IP awal pool DHCP                              | `10.100.100.100`  |
+| `IP_RANGE_END`      | IP akhir pool DHCP                             | `10.100.100.200`  |
+| `IP_BROADCAST`      | Broadcast address                              | `10.100.100.255`  |
+| `IP_REVERSE_OCTET`  | Oktet ketiga IP (untuk nama reverse zone)      | `100`             |
+| `IP_REVERSE_OCTET2` | Oktet kedua IP                                 | `100`             |
+| `IP_REVERSE_OCTET3` | Oktet pertama IP                               | `10`              |
+| `IP_LAST`           | Oktet terakhir IP server (PTR record)          | `1`               |
+| `NAMAUSER`          | Username peserta                               | `peserta`         |
+| `NAMA_GURU`         | Username guru pendamping                       | `gurukomputer`    |
+| `DOMAIN_LAIN`       | Domain server peserta lain (transport)         | `hadiwijaya.lan`  |
+| `IP_SERVER_LAIN`    | IP WAN server peserta lain (transport)         | `192.168.198.249` |
 
 ### Contoh Penggantian dengan sed
 
@@ -121,22 +121,22 @@ sed -i 's/NAMASEKOLAH/lombokcyber/g; s/IP_SERVER/10.100.100.1/g' /etc/dhcp/dhcpd
 
 #### Spesifikasi Jaringan
 
-| Parameter | Nilai |
-| --- | --- |
-| Domain | `smkn7mataram.lan` |
-| Hostname server | `mail.smkn7mataram.lan` |
-| IP server LAN (ens19) | `10.1.1.1/24` |
-| Gateway client | `10.1.1.1` |
-| DHCP range | `10.1.1.100` — `10.1.1.200` |
-| DNS server | `10.1.1.1` |
-| Reverse zone | `1.1.10.in-addr.arpa` (file: `db.10.1.1`) |
+| Parameter             | Nilai                                         |
+| --------------------- | --------------------------------------------- |
+| Domain                | `smkn7mataram.lan`                          |
+| Hostname server       | `mail.smkn7mataram.lan`                     |
+| IP server LAN (ens19) | `10.1.1.1/24`                               |
+| Gateway client        | `10.1.1.1`                                  |
+| DHCP range            | `10.1.1.100` — `10.1.1.200`              |
+| DNS server            | `10.1.1.1`                                  |
+| Reverse zone          | `1.1.10.in-addr.arpa` (file: `db.10.1.1`) |
 
 #### Akun yang Harus Dibuat
 
-| Username | Peran | Email |
-| --- | --- | --- |
+| Username    | Peran                 | Email                        |
+| ----------- | --------------------- | ---------------------------- |
 | `peserta` | Peserta (web + email) | `peserta@smkn7mataram.lan` |
-| `guru` | Guru pendamping | `guru@smkn7mataram.lan` |
+| `guru`    | Guru pendamping       | `guru@smkn7mataram.lan`    |
 
 #### Tugas yang Harus Dikerjakan
 
@@ -154,22 +154,22 @@ sed -i 's/NAMASEKOLAH/lombokcyber/g; s/IP_SERVER/10.100.100.1/g' /etc/dhcp/dhcpd
 
 #### Spesifikasi Jaringan
 
-| Parameter | Nilai |
-| --- | --- |
-| Domain | `smkn1masbagik.lan` |
-| Hostname server | `mail.smkn1masbagik.lan` |
-| IP server LAN (ens19) | `10.2.2.1/24` |
-| Gateway client | `10.2.2.1` |
-| DHCP range | `10.2.2.100` — `10.2.2.200` |
-| DNS server | `10.2.2.1` |
-| Reverse zone | `2.2.10.in-addr.arpa` (file: `db.10.2.2`) |
+| Parameter             | Nilai                                         |
+| --------------------- | --------------------------------------------- |
+| Domain                | `smkn1masbagik.lan`                         |
+| Hostname server       | `mail.smkn1masbagik.lan`                    |
+| IP server LAN (ens19) | `10.2.2.1/24`                               |
+| Gateway client        | `10.2.2.1`                                  |
+| DHCP range            | `10.2.2.100` — `10.2.2.200`              |
+| DNS server            | `10.2.2.1`                                  |
+| Reverse zone          | `2.2.10.in-addr.arpa` (file: `db.10.2.2`) |
 
 #### Akun yang Harus Dibuat
 
-| Username | Peran | Email |
-| --- | --- | --- |
+| Username    | Peran                 | Email                         |
+| ----------- | --------------------- | ----------------------------- |
 | `peserta` | Peserta (web + email) | `peserta@smkn1masbagik.lan` |
-| `guru` | Guru pendamping | `guru@smkn1masbagik.lan` |
+| `guru`    | Guru pendamping       | `guru@smkn1masbagik.lan`    |
 
 #### Tugas yang Harus Dikerjakan
 
@@ -187,22 +187,22 @@ sed -i 's/NAMASEKOLAH/lombokcyber/g; s/IP_SERVER/10.100.100.1/g' /etc/dhcp/dhcpd
 
 #### Spesifikasi Jaringan
 
-| Parameter | Nilai |
-| --- | --- |
-| Domain | `smkn1dompu.lan` |
-| Hostname server | `mail.smkn1dompu.lan` |
-| IP server LAN (ens19) | `10.3.3.1/24` |
-| Gateway client | `10.3.3.1` |
-| DHCP range | `10.3.3.100` — `10.3.3.200` |
-| DNS server | `10.3.3.1` |
-| Reverse zone | `3.3.10.in-addr.arpa` (file: `db.10.3.3`) |
+| Parameter             | Nilai                                         |
+| --------------------- | --------------------------------------------- |
+| Domain                | `smkn1dompu.lan`                            |
+| Hostname server       | `mail.smkn1dompu.lan`                       |
+| IP server LAN (ens19) | `10.3.3.1/24`                               |
+| Gateway client        | `10.3.3.1`                                  |
+| DHCP range            | `10.3.3.100` — `10.3.3.200`              |
+| DNS server            | `10.3.3.1`                                  |
+| Reverse zone          | `3.3.10.in-addr.arpa` (file: `db.10.3.3`) |
 
 #### Akun yang Harus Dibuat
 
-| Username | Peran | Email |
-| --- | --- | --- |
+| Username    | Peran                 | Email                      |
+| ----------- | --------------------- | -------------------------- |
 | `peserta` | Peserta (web + email) | `peserta@smkn1dompu.lan` |
-| `guru` | Guru pendamping | `guru@smkn1dompu.lan` |
+| `guru`    | Guru pendamping       | `guru@smkn1dompu.lan`    |
 
 #### Tugas yang Harus Dikerjakan
 
@@ -216,33 +216,33 @@ sed -i 's/NAMASEKOLAH/lombokcyber/g; s/IP_SERVER/10.100.100.1/g' /etc/dhcp/dhcpd
 
 ---
 
-### Peserta 4 — SMKN 1 Praya
+### Peserta 4 — SMKN 1 PRAYA TENGAH Tengah
 
 #### Spesifikasi Jaringan
 
-| Parameter | Nilai |
-| --- | --- |
-| Domain | `smkn1praya.lan` |
-| Hostname server | `mail.smkn1praya.lan` |
-| IP server LAN (ens19) | `10.4.4.1/24` |
-| Gateway client | `10.4.4.1` |
-| DHCP range | `10.4.4.100` — `10.4.4.200` |
-| DNS server | `10.4.4.1` |
-| Reverse zone | `4.4.10.in-addr.arpa` (file: `db.10.4.4`) |
+| Parameter             | Nilai                                         |
+| --------------------- | --------------------------------------------- |
+| Domain                | `smkn1prayatengah.lan`                            |
+| Hostname server       | `mail.smkn1prayatengah.lan`                       |
+| IP server LAN (ens19) | `10.4.4.1/24`                               |
+| Gateway client        | `10.4.4.1`                                  |
+| DHCP range            | `10.4.4.100` — `10.4.4.200`              |
+| DNS server            | `10.4.4.1`                                  |
+| Reverse zone          | `4.4.10.in-addr.arpa` (file: `db.10.4.4`) |
 
 #### Akun yang Harus Dibuat
 
-| Username | Peran | Email |
-| --- | --- | --- |
-| `peserta` | Peserta (web + email) | `peserta@smkn1praya.lan` |
-| `guru` | Guru pendamping | `guru@smkn1praya.lan` |
+| Username    | Peran                 | Email                      |
+| ----------- | --------------------- | -------------------------- |
+| `peserta` | Peserta (web + email) | `peserta@smkn1prayatengah.lan` |
+| `guru`    | Guru pendamping       | `guru@smkn1prayatengah.lan`    |
 
 #### Tugas yang Harus Dikerjakan
 
 1. **Konfigurasi IP Address** — set IP statis `10.4.4.1/24` pada `ens19`, aktifkan IP forwarding
 2. **DHCP Server** — layani jaringan `10.4.4.0/24`, range `10.4.4.100–200`, DNS `10.4.4.1`
-3. **DNS Server** — forward zone `smkn1praya.lan` (A, MX, NS, www), reverse zone `4.4.10.in-addr.arpa`
-4. **Web Server** — VirtualHost `smkn1praya.lan` dan `www.smkn1praya.lan`, DocumentRoot `/home/peserta/public_html`
+3. **DNS Server** — forward zone `smkn1prayatengah.lan` (A, MX, NS, www), reverse zone `4.4.10.in-addr.arpa`
+4. **Web Server** — VirtualHost `smkn1prayatengah.lan` dan `www.smkn1prayatengah.lan`, DocumentRoot `/home/peserta/public_html`
 5. **Upload HTML** — upload `index.html` via SCP dari client ke server, pindahkan ke DocumentRoot
 6. **Mail Server** — Postfix + Dovecot, format Maildir, buat akun `peserta` dan `guru`
 7. **Uji Email** — kirim dan reply email antar `peserta` ↔ `guru` via terminal, demo via Thunderbird
@@ -272,11 +272,11 @@ Internet (10.10.10.0/24 — GW: 10.10.10.1)
 
 ## Tentang Penulis / Juri
 
-| Field | Info |
-| --- | --- |
-| **Nama** | Hadiwijaya |
-| **Email** | `hadi@rinjani.net.id` |
-| **Email** | `hadi@lombokcyber.or.id` |
+| Field           | Info                               |
+| --------------- | ---------------------------------- |
+| **Nama**  | Hadiwijaya                         |
+| **Email** | `hadi@rinjani.net.id`            |
+| **Email** | `hadi@lombokcyber.or.id`         |
 | **Peran** | Juri & Penyusun Materi LKS SMK TKJ |
 
 Untuk pertanyaan teknis seputar materi ini, hubungi juri melalui email di atas
